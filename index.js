@@ -22,10 +22,10 @@ var airQualityService;
 module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
-    homebridge.registerAccessory("homebridge-airnow", "airnow", AirNowAccessory);
+    homebridge.registerAccessory("homebridge-aqicn_history", "Aqicn-airquality", AqicnAccessory);
 }
 
-function AirNowAccessory(log, config) {
+function AqicnAccessory(log, config) {
     this.log = log;
     this.name = config['name'];
     this.provider = lowerCase(config['provider']) || "airnow";
@@ -39,10 +39,8 @@ function AirNowAccessory(log, config) {
     this.polling = this.mpolling;
 
 	if (!this.provider) throw new Error("AirNow - You must provide a config value for 'provider'.");
-	if (this.provider == "airnow" && !this.zip) throw new Error("AirNow - You must provide a config value for 'zipcode' if using provider Airnow.com.");
-	if (this.provider == "airnow" && !this.airnow_api) throw new Error("AirNow - You must provide a config value for 'airnow_api' if using provider Airnow.gov.");
 	if (this.provider == "aqicn" && !this.aqicn_api) throw new Error("AirNow - You must provide a config value for 'aqicn_api' if using provider Aqicn.org.");
-	if (this.provider == "gamta" && !this.gamta_station) throw new Error("AirNow - You must provide a config value for 'gamta_station' if using provider stoteles.gamta.lt.");
+
 
 	if (this.polling > 0) {
 		var that = this;
@@ -60,7 +58,7 @@ function AirNowAccessory(log, config) {
 
 }
 
-AirNowAccessory.prototype = {
+AqicnAccessory.prototype = {
 
 	servicePolling: function(){
 		//this.log.debug('AirNow Polling...');
